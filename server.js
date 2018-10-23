@@ -1,9 +1,8 @@
 const express = require('express');
-const mysql = require('mysql');
-var bodyParser = require('body-parser');
-var path = require('path');
-var db = require('./config/db');
-var sign = require('./signRoutes.js');
+const bodyParser = require('body-parser');
+const path = require('path');
+const db = require('./config/db');
+const sign = require('./signRoutes.js');
 const app = express();
 
 //middlewares
@@ -26,10 +25,9 @@ app.get('/', function(req, res) {
             throw err;
         } else {
             //res.render('pages/index', { data: result });
-            res.render('pages/index');
+            res.render('pages/index', { dataMsg: "" });
         }
     });
-
 });
 
 
