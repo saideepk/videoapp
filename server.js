@@ -1,40 +1,36 @@
 const express = require('express');
 const mysql = require('mysql');
-const app = express();
+var bodyParser = require('body-parser');
+var path = require('path');
 var db = require('./config/db');
-var things = require('./routes.js');
+var sign = require('./signRoutes.js');
+const app = express();
 
 //middlewares
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname)));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+
+console.log(__dirname);
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-//both index.js and things.js should be in same directory
-app.use('/things', things.myRouter);
+//Categorizing Routes
+app.use('/sign', sign.myRouter);
 
-// index page 
+
 app.get('/', function(req, res) {
-    var data = [];
-    db.query("select * from adminlogin", function(err, response) {
+    db.query('SELECT * FROM adminlogin', function(err, result) {
         if (err) {
-            console.log("error: ", err);
+            throw err;
         } else {
-            // console.log(response[0]);
-            data.push(response[0]);
-            console.log(data);
-
+            //res.render('pages/index', { data: result });
+            res.render('pages/index');
         }
     });
 
-    //console.log(data);
-
-    res.render('pages/index', {
-        myData: data
-    });
 });
-
-
-
 
 
 app.listen(3000);
