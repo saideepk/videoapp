@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/header %>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <% include ../partials/nav %>
+        </div>
+    </nav>
+    <div class="col-sm-3 col-md-2 sidebar">
+        <div class="drop-navigation drop-navigation">
+            <% include ../partials/sidebar %>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="show-top-grids">
+            <div class="main-grids about-main-grids">
+                <div class="recommended-info" id="fileuploadContainer">
+                    <h3>Upload Videos</h3>
+
+                    <div class="box">
+                        <form action="/uploadProcess" enctype="multipart/form-data" method="post">
+                            <div class="form-group">
+                                <label for="Title">Video Title:</label>
+                                <input type="Title" class="form-control" name="video_title">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Video Description:</label>
+                                <textarea class="form-control" name="video_description" rows="3"></textarea>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleSelect1">Select Category</label>
+                                <select class="form-control" id="category" name="category">
+                                    <option value="">--Select--</option>
+                                    <option value="1">Arts</option>
+                                    <option value="2">Education</option>
+                                      <option value="3">Entertainment</option>
+                                      <option value="4">Science</option>
+                                      <option value="5">Technology</option>
+                                    </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleVideo">Upload Video file</label>
+                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="examplePrivateVideo">Is Video Private?</label> <br/>
+
+                                <input type="checkbox" name="videoPrivate" id="videoPrivate" autocomplete="off" />
+                                <div class="btn-group">
+                                    <label for="videoPrivate" class="btn btn-info">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <span> </span>
+                                            </label>
+                                    <label for="videoPrivate" class="btn btn-default active">
+                                                Make this Video Public
+                                            </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div class="footer">
+            <% include ../partials/footer %>
+        </div>
+
+        <!-- //footer -->
+    </div>
+</body>
+
+</html>
