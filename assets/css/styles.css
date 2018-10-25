@@ -134,12 +134,12 @@ form.navbar-form.navbar-right {
     outline: none;
 }
 
-.signin {
+.login {
     float: left;
     margin: 1.1em 0 0 1em;
 }
 
-.signin a {
+.login a {
     padding: 8px 20px;
     background: #21DEEF;
     color: #FFF;
@@ -152,13 +152,13 @@ form.navbar-form.navbar-right {
     -ms-border-radius: 3px;
 }
 
-.signin a:hover {
+.login a:hover {
     text-decoration: none;
     color: #272C2E;
     background: #F7F7F7;
 }
 
-.signin a:focus {
+.login a:focus {
     outline: none;
 }
 

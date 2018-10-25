@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -17,14 +18,16 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-//middlewares
-app.use(express.static(path.join(__dirname)));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // set the view engine to ejs
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+//middlewares
+app.use(express.static(path.join(__dirname)));
+
 
 //Categorizing Routes
 app.use('/sign', sign.myRouter);
@@ -37,9 +40,33 @@ app.get('/upload', function(req, res) {
     res.render('pages/upload');
 });
 
+app.get('/messages/:status/:page', function(req, res) {
+    const status = req.params.status;
+    const page = req.params.page;
+    var data = {}
+    if (status === "0" && page === "registration") {
+        data.statuscode = status;
+        data.text = "Registration Failed, please try again";
+    } else if (status === "1" && page === "registration") {
+        data.statuscode = status;
+        data.text = "Successsfully Registered, Now Login and Upload Videos..";
+    } else if (status === "0" && page === "login") {
+        data.statuscode = status;
+        data.text = "Login Failed, please try again";
+    } else {
+        data.statuscode = 0;
+        data.text = "No Messages for now";
+    }
+
+    console.log(data);
+    res.render('pages/messages', {
+        statuscode: data.statuscode,
+        text: data.text
+    });
+});
+
 app.post('/uploadProcess', upload.single('videoFile'), function(req, res, next) {
     // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
     const userId = 1;
     const videoTitle = req.body.video_title;
     const videoDesc = req.body.video_description;
@@ -51,14 +78,13 @@ app.post('/uploadProcess', upload.single('videoFile'), function(req, res, next) 
     let assignPrivate;
     //If Private
     if (isPrivate === 'on') {
-        assignPrivate = 0;
+        assignPrivate = false;
     } else {
-        assignPrivate = 1;
+        assignPrivate = true;
     }
 
     let insQuery = "INSERT INTO `videos` (user_id, category_id, video_name, video_description, video_duration,video_upload_path, video_uploadedon, isPublic, status) VALUES ('" +
         userId + "', '" + category + "','" + videoTitle + "', '" + videoDesc + "', '" + videoDuration + "', '" + fileUploadedPath + "', '" + fileUploadedOn + "',  '" + assignPrivate + "', '" + "Active" + "')";
-    console.log(insQuery);
     db.query(insQuery, function(err, result) {
         if (err) {
             throw err;
