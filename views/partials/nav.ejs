@@ -22,11 +22,14 @@
             <div id="small-dialog2" class="mfp-hide">
                 <h3>Create Account</h3>
                 <div class="signup">
-                    <form action="/sign/regProcess" method="POST">
+                    <form action="/regProcess" method="POST">
                         <input type="text" name="name" placeholder="Name" value="saideep" required="required" title="Enter your full name" />
-                        <input type="text" name="emailId" placeholder="Email" value="saideep.kankarla@gmail.com" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" title="Enter a valid email" />
-                        <input type="password" name="password" placeholder="Password" value="12345678" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
-                        <input type="text" name="phone" placeholder="Mobile Number" value="1234567890" maxlength="10" pattern="[1-9]{1}\d{9}" title="Enter a valid mobile number" />
+                        <input type="text" name="emailId" placeholder="Email" value="saideep.kankarla@gmail.com"
+                            required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" title="Enter a valid email" />
+                        <input type="password" name="password" placeholder="Password" value="12345678" required="required"
+                            pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
+                        <input type="text" name="phone" placeholder="Mobile Number" value="1234567890" maxlength="10"
+                            pattern="[1-9]{1}\d{9}" title="Enter a valid mobile number" />
                         <input type="submit" value="Sign Up" />
                     </form>
                 </div>
@@ -41,13 +44,16 @@
                 <h3>Login</h3>
 
                 <div class="signup">
-                    <form>
-                        <input type="text" name="login_emailId" placeholder="Enter email id" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
-                        <input type="password" name="login_password" placeholder="Password" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
-                        <input type="submit" value="Login " />
+                    <form action="/loginProcess" method="POST">
+                        <input type="text" name="login_emailId" placeholder="Enter email id" required="required"
+                            pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
+                        <input type="password" name="login_password" placeholder="Password" required="required" pattern=".{6,}"
+                            title="Minimum 6 characters required" autocomplete="off" />
+                        <input type="submit" name="login" value="Login " />
                     </form>
                     <div class="forgot">
-                        <a href="#">Forgot password ?</a> <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">| Create Account</a>
+                        <a href="#">Forgot password ?</a> <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">|
+                            Create Account</a>
                     </div>
                 </div>
                 <div class="clearfix"> </div>
