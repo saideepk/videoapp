@@ -2,20 +2,25 @@
 
     <div class="drop-navigation drop-navigation">
         <ul class="nav nav-sidebar">
-            <li><a href="/" class="home-icon"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class=""><a href="/" class="home-icon"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
 
             <li><a href="/history" class="home-icon"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>History</a></li>
 
-            <li class="active"><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Categories<span
+            <li><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Categories<span
                         class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
-            <ul class="cl-effect-2">
-                <li><a href="#semlinkcomeshere">Semester-1</a></li>
-                <li><a href="#semlinkcomeshere">Semester-2</a></li>
-                <li><a href="#semlinkcomeshere">Semester-3</a></li>
-                <li><a href="#semlinkcomeshere">Semester-4</a></li>
-                <li><a href="#semlinkcomeshere">Semester-5</a></li>
-                <li><a href="#semlinkcomeshere">Semester-6</a></li>
-            </ul>
 
+
+            <ul class="cl-effect-2">
+                <% console.log(sidebarData); %>
+                <% if(sidebarData && sidebarData.length > 0){ %>
+                <% sidebarData.forEach(function(item){ %>
+                <li><a href="/category/<%= item.category_id %>">
+                        <%= item.name %></a></li>
+                <% }) %>
+                <% } else { %>
+                <li><a href="/">
+                        No Categories found</a></li>
+                <% } %>
+            </ul>
     </div>
 </div>

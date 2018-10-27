@@ -36,7 +36,6 @@
 
         </div>
 
-        <% console.log(data.isloggedin); %>
 
         <% if(data.isloggedin) { %>
         <div class="btn-group navbar-right">
@@ -64,10 +63,10 @@
 
                 <div class="signup">
                     <form action="/loginProcess" method="POST">
-                        <input type="text" name="login_emailId" placeholder="Enter email id" required="required"
-                            pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
-                        <input type="password" name="login_password" placeholder="Password" required="required" pattern=".{6,}"
-                            title="Minimum 6 characters required" autocomplete="off" />
+                        <input type="text" value="deep.kankarla@gmail.com" name="login_emailId" placeholder="Enter email id"
+                            required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
+                        <input type="password" value="123456" name="login_password" placeholder="Password" required="required"
+                            pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
                         <input type="submit" name="login" value="Login " />
                     </form>
                     <div class="forgot">

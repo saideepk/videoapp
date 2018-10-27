@@ -20,6 +20,12 @@
         <div class="show-top-grids">
             <div class="main-grids about-main-grids">
                 <div class="recommended-info" id="fileuploadContainer">
+                    <% if (v_message.length > 0) { %>
+                    <div class="alert alert-warning">
+                        <%= v_message %>
+                    </div>
+                    <% } else {                     
+                    } %>
                     <h3>Upload a Video</h3>
 
                     <div class="box">
@@ -32,37 +38,36 @@
                                 <label for="desc">Video Description:</label>
                                 <textarea class="form-control" name="video_description" rows="3"></textarea>
                             </div>
-
-
                             <div class="form-group">
                                 <label for="exampleSelect1">Select Category</label>
                                 <select class="form-control" id="category" name="category">
                                     <option value="">--Select--</option>
                                     <option value="1">Arts</option>
                                     <option value="2">Education</option>
-                                      <option value="3">Entertainment</option>
-                                      <option value="4">Science</option>
-                                      <option value="5">Technology</option>
-                                    </select>
+                                    <option value="3">Entertainment</option>
+                                    <option value="4">Science</option>
+                                    <option value="5">Technology</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleVideo">Upload Video file</label>
-                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" required>
+                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4,video/x-m4v,video/*"
+                                    id="videoFile" required>
                             </div>
                             <div class="form-group">
-                                <label for="examplePrivateVideo">Is Video Private?</label> <br/>
+                                <label for="examplePrivateVideo">Is Video Private?</label> <br />
 
                                 <input type="checkbox" name="videoPrivate" id="videoPrivate" autocomplete="off" />
                                 <div class="btn-group">
                                     <label for="videoPrivate" class="btn btn-info">
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                                <span> </span>
-                                            </label>
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                        <span> </span>
+                                    </label>
                                     <label for="videoPrivate" class="btn btn-default active">
-                                                Make this Video Public
-                                            </label>
+                                        Make this Video Public
+                                    </label>
                                 </div>
-                            </div> <br/>
+                            </div> <br />
                             <button type="submit" class="btn btn-primary">Upload This Video</button>
                         </form>
                     </div>

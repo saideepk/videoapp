@@ -11,7 +11,6 @@ const morgan = require("morgan");
 const app = express();
 
 var sess;
-
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
     var upsess = req.session;
@@ -50,7 +49,6 @@ app.set("view engine", "ejs");
 let sessObj = function(req, res) {
   let messages;
   sess = req.session;
-
   if (sess.isloggedin) {
     var obj = {
       isloggedin: true,
@@ -64,13 +62,26 @@ let sessObj = function(req, res) {
   return messages;
 };
 
+let getCategories = function(callback) {
+  db.query(
+    "SELECT * FROM categories WHERE status='Active'",
+    (error, results, fields) => {
+      if (error) {
+        console.log(err);
+        callback(true);
+        return;
+      }
+      callback(false, results);
+    }
+  );
+};
+
 //Categorizing Routes
 app.get("*", function(req, res, next) {
   const myDataObj = sessObj(req, res);
   if (req.url === "/") {
     return next();
   } else {
-    console.log("sas", myDataObj.isloggedin);
     if (!myDataObj.isloggedin) {
       res.redirect("/");
     } else {
@@ -81,34 +92,34 @@ app.get("*", function(req, res, next) {
 
 app.get("/", function(req, res) {
   const myDataObj = sessObj(req, res);
-  res.render("pages/index", {
-    data: myDataObj
+  getCategories(function(err, results) {
+    res.render("pages/index", {
+      data: myDataObj,
+      sidebarData: results
+    });
   });
 });
 
 app.get("/upload", function(req, res) {
   const myDataObj = sessObj(req, res);
   res.render("pages/upload", {
+    v_message: req.flash("statusMsg"),
+    data: myDataObj
+  });
+});
+
+app.get("/manage", function(req, res) {
+  const myDataObj = sessObj(req, res);
+  res.render("pages/manage", {
     data: myDataObj
   });
 });
 
 app.get("/messages", function(req, res) {
-  sess = req.session;
-  var messages = [];
-  if (sess.isloggedin) {
-    var obj = {
-      isloggedin: true,
-      name: sess.name,
-      userId: sess.userId
-    };
-    messages.push(obj);
-  } else {
-    messages.push({ isloggedin: false });
-  }
+  const myDataObj = sessObj(req, res);
   res.render("pages/messages", {
     infoMessages: req.flash("info"),
-    data: messages
+    data: myDataObj
   });
 });
 
@@ -120,7 +131,7 @@ app.post("/uploadProcess", upload.single("videoFile"), function(
   const userId = 1;
   const videoTitle = req.body.video_title;
   const videoDesc = req.body.video_description;
-  const videoDuration = "5:08";
+  const videoDuration = "0:00";
   const category = req.body.category;
   const fileUploadedPath = req.file.filename;
   const fileUploadedOn = new Date().toLocaleString();
@@ -155,9 +166,10 @@ app.post("/uploadProcess", upload.single("videoFile"), function(
     "')";
   db.query(insQuery, function(err, result) {
     if (err) {
-      throw err;
+      req.flash("statusMsg", "Record Not inserted, Try again");
+      res.redirect("/upload");
     } else {
-      //res.render('pages/index', { data: result });
+      req.flash("statusMsg", "Video added Successfully.");
       res.redirect("/upload");
     }
   });

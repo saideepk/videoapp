@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 body {
     background: #fff;
-    font-size: 100%;
+    font-size: 12px;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -264,7 +264,6 @@ ul.cl-effect-2 {
     font-size: 11px !important;
 }
 
-
 /*-- Slider Part starts Here --*/
 
 #slider2,
@@ -511,7 +510,6 @@ ul.social-slide li i.mac {
     margin: 0 .5em;
 }
 
-
 /*----*/
 
 .callbacks_tabs a {
@@ -653,7 +651,6 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
     bottom: 1%;
 }
 
-
 /*
 .resent-grid-img:hover div.time{
 	display:none;
@@ -709,7 +706,6 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
     color: #9E9E9E;
     margin: 0;
 }
-
 
 /*-- recommended --*/
 
@@ -853,7 +849,6 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
     margin-top: 1em;
 }
 
-
 /*-- footer --*/
 
 .footer {
@@ -996,7 +991,6 @@ select.form-control.bfh-countries:hover {
     -ms-transition: 0.5s all;
 }
 
-
 /*-- single --*/
 
 .song {
@@ -1116,7 +1110,6 @@ select.form-control.bfh-countries:hover {
     color: #525254;
 }
 
-
 /*-- shows --*/
 
 .show-top-grids {
@@ -1180,7 +1173,6 @@ select.form-control.bfh-countries:hover {
     width: 100%;
 }
 
-
 /*-- history --*/
 
 .recommended-info p.history-text {
@@ -1226,7 +1218,6 @@ select.form-control.bfh-countries:hover {
     margin: 0;
     line-height: 1.8em;
 }
-
 
 /* Shutter In Vertical */
 
@@ -1287,7 +1278,6 @@ select.form-control.bfh-countries:hover {
     transform: scaleY(0);
 }
 
-
 /*-- single --*/
 
 .single-main {
@@ -1301,7 +1291,6 @@ select.form-control.bfh-countries:hover {
 .song-info-left {
     float: left;
 }
-
 
 /*-- published --*/
 
@@ -1326,7 +1315,6 @@ select.form-control.bfh-countries:hover {
     margin: 1em 0;
     line-height: 1.8em;
 }
-
 
 /*-- load-more --*/
 
@@ -1629,7 +1617,6 @@ select.form-control.bfh-countries:hover {
     padding-right: 0;
 }
 
-
 /*-- about --*/
 
 .about-main-grids {
@@ -1698,7 +1685,6 @@ span.glyphicon.glyphicon-user {
     margin-top: 2em;
 }
 
-
 /*-- terms --*/
 
 .terms-info {
@@ -1727,7 +1713,6 @@ span.glyphicon.glyphicon-user {
 .terms-info-grid p.terms-info-text {
     margin: 1em 0 0 1em;
 }
-
 
 /*-- news --*/
 
@@ -1775,7 +1760,6 @@ span.glyphicon.glyphicon-user {
     text-decoration: none;
 }
 
-
 /*-- copyright --*/
 
 .copy-info ol {
@@ -1815,7 +1799,6 @@ span.glyphicon.glyphicon-user {
 .copy-grid {
     margin-top: 3em;
 }
-
 
 /*-- developers --*/
 
@@ -1869,7 +1852,6 @@ span.glyphicon.glyphicon-user {
     color: #9E9E9E;
     margin: 1em 0 0 0;
 }
-
 
 /*-- creators --*/
 
@@ -1975,7 +1957,6 @@ span.glyphicon.glyphicon-user {
     color: #FFFFFF;
 }
 
-
 /*-- try --*/
 
 .try-banner {
@@ -2022,7 +2003,6 @@ span.glyphicon.glyphicon-user {
 .try-right-left img {
     width: 100%;
 }
-
 
 /*-- upload --*/
 
@@ -2206,9 +2186,7 @@ span.glyphicon.glyphicon-user {
     display: none;
 }
 
-
 /* File Upload Css */
-
 
 /*-- responsive-design starts-here --*/
 
