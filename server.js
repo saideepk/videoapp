@@ -8,13 +8,15 @@ const sign = require("./routes/signRoutes.js");
 const multer = require("multer");
 const flash = require("connect-flash");
 const morgan = require("morgan");
-
 const app = express();
+
 var sess;
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/videos/1");
+    var upsess = req.session;
+    const userId = sess.userId;
+    cb(null, "public/videos/" + userId);
   },
   filename: (req, file, cb) => {
     fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
@@ -36,8 +38,8 @@ app.use(
     saveUninitialized: true
   })
 );
-app.use(flash());
 
+app.use(flash());
 app.use("/assets", express.static(__dirname + "/assets"));
 app.use("/sign", sign.myRouter);
 
@@ -45,26 +47,68 @@ app.use("/sign", sign.myRouter);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
-//Categorizing Routes
-app.get("/", function(req, res) {
+let sessObj = function(req, res) {
+  let messages;
   sess = req.session;
 
   if (sess.isloggedin) {
-    res.render("pages/dashboard", {
-      text: "Hellloooo"
-    });
+    var obj = {
+      isloggedin: true,
+      name: sess.name,
+      userId: sess.userId
+    };
+    messages = obj;
   } else {
-    res.render("pages/index");
+    messages = { isloggedin: false };
+  }
+  return messages;
+};
+
+//Categorizing Routes
+app.get("*", function(req, res, next) {
+  const myDataObj = sessObj(req, res);
+  if (req.url === "/") {
+    return next();
+  } else {
+    console.log("sas", myDataObj.isloggedin);
+    if (!myDataObj.isloggedin) {
+      res.redirect("/");
+    } else {
+      return next();
+    }
   }
 });
 
+app.get("/", function(req, res) {
+  const myDataObj = sessObj(req, res);
+  res.render("pages/index", {
+    data: myDataObj
+  });
+});
+
 app.get("/upload", function(req, res) {
-  res.render("pages/upload");
+  const myDataObj = sessObj(req, res);
+  res.render("pages/upload", {
+    data: myDataObj
+  });
 });
 
 app.get("/messages", function(req, res) {
+  sess = req.session;
+  var messages = [];
+  if (sess.isloggedin) {
+    var obj = {
+      isloggedin: true,
+      name: sess.name,
+      userId: sess.userId
+    };
+    messages.push(obj);
+  } else {
+    messages.push({ isloggedin: false });
+  }
   res.render("pages/messages", {
-    message: req.flash("info")
+    infoMessages: req.flash("info"),
+    data: messages
   });
 });
 
@@ -73,7 +117,6 @@ app.post("/uploadProcess", upload.single("videoFile"), function(
   res,
   next
 ) {
-  // req.file is the `avatar` file
   const userId = 1;
   const videoTitle = req.body.video_title;
   const videoDesc = req.body.video_description;
@@ -134,14 +177,11 @@ app.post("/loginProcess", function(req, res) {
         res.redirect("/messages");
       } else {
         if (results.length > 0) {
-          console.log("Logged in");
-
           sess.isloggedin = true;
           sess.name = results[0].name;
           sess.userId = results[0].user_id;
 
-          req.flash("info", "Welcome " + sess.name);
-          res.redirect("/messages");
+          res.redirect("/");
         } else {
           req.flash(
             "info",
@@ -155,6 +195,8 @@ app.post("/loginProcess", function(req, res) {
 });
 
 app.post("/regProcess", function(req, res) {
+  sess = req.session;
+
   const name = req.body.name;
   const phone = req.body.phone;
   const email_id = req.body.emailId;
@@ -183,10 +225,21 @@ app.post("/regProcess", function(req, res) {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
+      sess.isloggedin = true;
+      sess.name = name;
+      sess.userId = pkId;
       req.flash("info", "Success!");
-      res.redirect("/messages");
+      res.redirect("/");
     }
   });
+});
+
+app.get("/logout", function(req, res) {
+  sess = req.session;
+  req.session.destroy();
+
+  //req.flash("info", "Session cleared and User Logged Out Successfully. ");
+  res.redirect("/");
 });
 
 app.listen(3000);

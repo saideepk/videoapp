@@ -13,12 +13,9 @@
         </form>
     </div>
     <div class="header-top-right">
-        <div class="file">
-            <a href="/upload">Upload</a>
-        </div>
+
         <div class="login">
             <!-- <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">Sign Up</a> -->
-
             <div id="small-dialog2" class="mfp-hide">
                 <h3>Create Account</h3>
                 <div class="signup">
@@ -38,8 +35,30 @@
             </div>
 
         </div>
+
+        <% console.log(data.isloggedin); %>
+
+        <% if(data.isloggedin) { %>
+        <div class="btn-group navbar-right">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Welcome
+                    <%= data.name %>
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="/upload">Upload a video</a></li>
+                    <li><a href="/manage">Manage videos</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="login"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></div>
+        <% } %>
+
+
+
         <div class="login">
-            <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a>
             <div id="small-dialog" class="mfp-hide">
                 <h3>Login</h3>
 
