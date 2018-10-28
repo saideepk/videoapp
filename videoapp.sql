@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2018 at 02:22 PM
+-- Generation Time: Oct 28, 2018 at 10:06 PM
 -- Server version: 5.5.39
 -- PHP Version: 5.4.31
 
@@ -20,169 +20,38 @@ SET time_zone = "+00:00";
 -- Database: `videoapp`
 --
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `adminlogin`
+-- Dumping data for table `adminlogin`
 --
 
-CREATE TABLE IF NOT EXISTS `adminlogin` (
-`admin_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `email_id` varchar(200) NOT NULL,
-  `password` varchar(20) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
--- --------------------------------------------------------
+INSERT INTO `adminlogin` (`admin_id`, `name`, `email_id`, `password`) VALUES
+(1, 'saideep kankarla', 'skankarla@gmail.com', '123456');
 
 --
--- Table structure for table `categories`
+-- Dumping data for table `categories`
 --
 
-CREATE TABLE IF NOT EXISTS `categories` (
-`category_id` int(11) NOT NULL,
-  `name` varchar(80) NOT NULL,
-  `description` text NOT NULL,
-  `status` varchar(7) NOT NULL DEFAULT 'Active'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
--- --------------------------------------------------------
+INSERT INTO `categories` (`category_id`, `name`, `description`, `status`) VALUES
+(1, 'Arts', 'Arts videos comes here', 'Active'),
+(2, 'Education', 'Education videos comes here', 'Active'),
+(3, 'Entertainment', 'Entertainment videos comes here', 'Active'),
+(4, 'Science', 'Science videos comes here', 'Active'),
+(5, 'Technology', 'Technology videos comes here', 'Active');
 
 --
--- Table structure for table `comments`
+-- Dumping data for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `comments` (
-`comment_id` int(11) NOT NULL,
-  `video_id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` int(10) NOT NULL,
-  `comments` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+INSERT INTO `users` (`user_id`, `name`, `phone`, `email_id`, `password`, `status`) VALUES
+(1, 'saideep', 1234567890, 'skankarla@gmail.com', '123456', 'Active');
 
 --
--- Table structure for table `users`
+-- Dumping data for table `videos`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-`user_id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `phone` int(10) NOT NULL,
-  `email_id` varchar(200) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'Active'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+INSERT INTO `videos` (`video_id`, `user_id`, `category_id`, `video_name`, `video_description`, `video_thumbnail`, `video_duration`, `video_upload_path`, `video_uploadedon`, `video_views`, `isPublic`, `status`) VALUES
+(1, 1, 2, 'My video 1', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia', 'videoThumb-1540758789186.png', '', 'videoFile-1540758789194.mp4', '2018-10-29 02:03:09', 2, 'true', 'Active');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `videos`
---
-
-CREATE TABLE IF NOT EXISTS `videos` (
-`video_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `video_name` varchar(255) NOT NULL,
-  `video_description` text NOT NULL,
-  `video_thumbnail` varchar(255) NOT NULL DEFAULT 'nothumb.png',
-  `video_duration` varchar(10) NOT NULL,
-  `video_upload_path` varchar(255) NOT NULL,
-  `video_uploadedon` varchar(30) NOT NULL,
-  `isPublic` varchar(5) NOT NULL DEFAULT 'true',
-  `status` varchar(10) NOT NULL DEFAULT 'Active'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `videos_history`
---
-
-CREATE TABLE IF NOT EXISTS `videos_history` (
-`history_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `video_id` int(11) NOT NULL,
-  `viewedOn` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `adminlogin`
---
-ALTER TABLE `adminlogin`
- ADD PRIMARY KEY (`admin_id`), ADD UNIQUE KEY `email_id` (`email_id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
- ADD PRIMARY KEY (`category_id`);
-
---
--- Indexes for table `comments`
---
-ALTER TABLE `comments`
- ADD PRIMARY KEY (`comment_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
- ADD PRIMARY KEY (`user_id`);
-
---
--- Indexes for table `videos`
---
-ALTER TABLE `videos`
- ADD PRIMARY KEY (`video_id`);
-
---
--- Indexes for table `videos_history`
---
-ALTER TABLE `videos_history`
- ADD PRIMARY KEY (`history_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `adminlogin`
---
-ALTER TABLE `adminlogin`
-MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `comments`
---
-ALTER TABLE `comments`
-MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `videos`
---
-ALTER TABLE `videos`
-MODIFY `video_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `videos_history`
---
-ALTER TABLE `videos_history`
-MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

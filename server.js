@@ -3,7 +3,7 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
-const db = require("./config/db");
+const db = require("./models/db");
 const sign = require("./routes/signRoutes.js");
 const multer = require("multer");
 const flash = require("connect-flash");
@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
   destination: (req, file, cb) => {
     var upsess = req.session;
     const userId = sess.userId;
-    cb(null, "public/videos/" + userId);
+    cb(null, "public/media/" + userId);
   },
   filename: (req, file, cb) => {
     fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
@@ -68,6 +68,9 @@ function getCategories(req, res, next) {
     if (rows.length > 0) {
       req.sidebarData = rows;
       return next();
+    } else {
+      req.sidebarData = [];
+      return next();
     }
   });
 }
@@ -79,10 +82,12 @@ function getDashboardVideos(req, res, next) {
     if (rows.length > 0) {
       req.dashBoardData = rows;
       return next();
+    } else {
+      req.dashBoardData = [];
+      return next();
     }
   });
 }
-
 function renderPage(req, res) {
   const myDataObj = sessObj(req, res);
   res.render("pages/index", {
@@ -93,9 +98,11 @@ function renderPage(req, res) {
 }
 
 //Categorizing Routes
+
 app.get("*", function(req, res, next) {
   sess = req.session;
-  if (req.url === "/") {
+  console.log(req.url);
+  if (req.url === "/" || req.url === "/video/1") {
     return next();
   } else {
     if (!sess.isloggedin) {
@@ -117,6 +124,40 @@ app.get("/upload", getCategories, function(req, res) {
   });
 });
 
+app.get("/video/:id", getCategories, function(req, res, next) {
+  const myDataObj = sessObj(req, res);
+  var query =
+    "SELECT * FROM videos WHERE video_id =" +
+    req.params.id +
+    " and status='Active' ";
+  db.query(query, function(error, rows) {
+    if (rows && rows !== undefined && rows.length > 0) {
+      var count = rows[0].video_views + 1;
+      let updateQuery =
+        "update videos set video_views=" +
+        count +
+        " where video_id=" +
+        req.params.id +
+        "";
+      db.query(updateQuery, function(err, result) {
+        if (err) {
+          console.log("unable to update video count");
+        } else {
+          console.log("Video Count Updated");
+        }
+      });
+
+      res.render("pages/videoPage", {
+        data: myDataObj,
+        sideBar: req.sidebarData,
+        videoData: rows[0]
+      });
+    } else {
+      res.redirect("/");
+    }
+  });
+});
+
 app.get("/manage", getCategories, function(req, res) {
   const myDataObj = sessObj(req, res);
   res.render("pages/manage", {
@@ -134,57 +175,69 @@ app.get("/messages", getCategories, function(req, res) {
   });
 });
 
-app.post("/uploadProcess", upload.single("videoFile"), function(
-  req,
-  res,
-  next
-) {
-  const userId = req.session.userId;
-  const videoTitle = req.body.video_title;
-  const videoDesc = req.body.video_description;
-  const videoDuration = "0:00";
-  const category = req.body.category;
-  const fileUploadedPath = req.file.filename;
-  const fileUploadedOn = new Date().toLocaleString();
-  const isPrivate = req.body.videoPrivate;
-  let assignPrivate;
-  //If Private
-  if (isPrivate === "on") {
-    assignPrivate = false;
-  } else {
-    assignPrivate = true;
-  }
-
-  let insQuery =
-    "INSERT INTO `videos` (user_id, category_id, video_name, video_description, video_duration,video_upload_path, video_uploadedon, isPublic, status) VALUES ('" +
-    userId +
-    "', '" +
-    category +
-    "','" +
-    videoTitle +
-    "', '" +
-    videoDesc +
-    "', '" +
-    videoDuration +
-    "', '" +
-    fileUploadedPath +
-    "', '" +
-    fileUploadedOn +
-    "',  '" +
-    assignPrivate +
-    "', '" +
-    "Active" +
-    "')";
-  db.query(insQuery, function(err, result) {
-    if (err) {
-      req.flash("statusMsg", "Record Not inserted, Try again");
-      res.redirect("/upload");
-    } else {
-      req.flash("statusMsg", "Video added Successfully.");
-      res.redirect("/upload");
+app.post(
+  "/uploadProcess",
+  upload.fields([
+    {
+      name: "videoThumb",
+      maxCount: 1
+    },
+    {
+      name: "videoFile",
+      maxCount: 1
     }
-  });
-});
+  ]),
+  function(req, res, next) {
+    const userId = req.session.userId;
+    const videoTitle = req.body.video_title;
+    const videoDesc = req.body.video_description;
+    const category = req.body.category;
+    const thumbUploadedPath = req.files["videoThumb"][0].filename;
+    const videoUploadedPath = req.files["videoFile"][0].filename;
+    const fileUploadedOn = new Date().toLocaleString();
+    const isPublic = req.body.videoPublic;
+    let assignPublic;
+    console.log(thumbUploadedPath);
+    console.log(videoUploadedPath);
+    //If Private
+    if (isPublic === "on") {
+      assignPublic = true;
+    } else {
+      assignPublic = false;
+    }
+
+    let insQuery =
+      "INSERT INTO `videos` (user_id, category_id, video_name,video_description,video_thumbnail,video_upload_path, video_uploadedon, isPublic, status) VALUES ('" +
+      userId +
+      "', '" +
+      category +
+      "','" +
+      videoTitle +
+      "', '" +
+      videoDesc +
+      "', '" +
+      thumbUploadedPath +
+      "', '" +
+      videoUploadedPath +
+      "', '" +
+      fileUploadedOn +
+      "',  '" +
+      assignPublic +
+      "', '" +
+      "Active" +
+      "')";
+    db.query(insQuery, function(err, result) {
+      if (err) {
+        console.log(err);
+        req.flash("statusMsg", "Record Not inserted, Try again");
+        res.redirect("/upload");
+      } else {
+        req.flash("statusMsg", "Video added Successfully.");
+        res.redirect("/upload");
+      }
+    });
+  }
+);
 
 app.post("/loginProcess", function(req, res) {
   var email = req.body.login_emailId;
@@ -244,7 +297,7 @@ app.post("/regProcess", function(req, res) {
       res.redirect("/messages");
     } else {
       const pkId = result.insertId;
-      const dir = "public/videos/" + pkId;
+      const dir = "public/media/" + pkId;
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }

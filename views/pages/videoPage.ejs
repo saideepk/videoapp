@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/header %>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <% include ../partials/nav %>
+        </div>
+    </nav>
+    <div class="col-sm-3 col-md-2 sidebar">
+        <div class="drop-navigation drop-navigation">
+            <% include ../partials/sidebar %>
+        </div>
+    </div>
+    <% 
+    let userid = videoData.user_id;
+    let videoId = videoData.video_id;
+    let videoTitle = videoData.video_name;
+    let videoDesc = videoData.video_description;
+    let videoSrc = "/public/media/"+userid+"/"+videoData.video_upload_path;    
+    let videoUploadedOn = videoData.video_uploadedon;
+    %>
+
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="show-top-grids">
+            <div class="col-sm-12 single-left">
+                <div class="song">
+                    <div class="song-info">
+                        <h3>
+                            <%= videoTitle %>
+                        </h3>
+                    </div>
+                    <div class="video-grid">
+                        <video width="100%" height="100%" controls>
+                            <source src=<%=videoSrc %> type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="published">
+                    <div class="load_more">
+                        <ul id="myList">
+                            <li style="display: list-item;">
+                                <h4>Published on
+                                    <%= videoUploadedOn %>
+                                </h4>
+                                <p>
+                                    <%= videoDesc %>
+                                </p>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="all-comments">
+                    <div class="all-comments-info">
+                        <a href="#">All Comments (8,657)</a>
+                        <div class="box">
+                            <form>
+                                <input type="text" placeholder="Name" required=" ">
+                                <input type="text" placeholder="Email" required=" ">
+                                <input type="text" placeholder="Phone" required=" ">
+                                <textarea placeholder="Message" required=" "></textarea>
+                                <input type="submit" value="Post Comment">
+                                <div class="clearfix"> </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="media-grids">
+                        <div class="media">
+                            <h5>Tom Brown</h5>
+                            <div class="media-left">
+                                <a href="#">
+
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <p>Maecenas ultricies rhoncus tincidunt maecenas imperdiet ipsum id ex pretium
+                                    hendrerit maecenas imperdiet ipsum id ex pretium hendrerit</p>
+                                <span>View all posts by :<a href="#"> Admin </a></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!---300x250--->
+
+            <div class="clearfix"> </div>
+        </div>
+        <!-- footer -->
+        <div class="footer">
+            <% include ../partials/footer %>
+        </div>
+
+        <!-- //footer -->
+    </div>
+</body>
+
+</html>

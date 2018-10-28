@@ -25,17 +25,21 @@
                             <div class="heading">
                                 <h3>Browse Videos </h3>
                             </div>
-                            <% console.log(dashboard); %>
                             <div class="clearfix"> </div>
                         </div>
                         <% if(dashboard && dashboard.length > 0){ %>
                         <% dashboard.forEach(function(item){ %>
                         <% let videohref = "/video/"+item.video_id; %>
+                        <% if(item.video_thumbnail == "nothumb.png"){
+                            var imgSrc = "/assets/images/nothumb.png";
+                        } else {
+                            var imgSrc = "/public/media/"+item.video_id+"/"+item.video_thumbnail;
+                        } %>
 
                         <div class="col-md-3 resent-grid recommended-grid movie-video-grid">
                             <div class="resent-grid-img recommended-grid-img">
                                 <a href=<%=videohref %> class=
-                                    <%= item.video_name %>><img src="assets/images/mv4.jpg" alt="" /></a>
+                                    <%= item.video_name %>><img src=<%=imgSrc %> alt="" /></a>
 
                             </div>
                             <div class="resent-grid-info recommended-grid-info recommended-grid-movie-info">
@@ -47,7 +51,8 @@
                                         <p class="author author-info"><a href="#" class="author">Saideep</a></p>
                                     </li>
                                     <li class="right-list">
-                                        <p class="views views-info">0 views</p>
+                                        <p class="views views-info">
+                                            <%= item.video_views %> views</p>
                                     </li>
                                 </ul>
                             </div>

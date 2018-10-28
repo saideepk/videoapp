@@ -32,15 +32,15 @@
                         <form action="/uploadProcess" enctype="multipart/form-data" method="post">
                             <div class="form-group">
                                 <label for="Title">Video Title:</label>
-                                <input type="Title" class="form-control" name="video_title">
+                                <input type="Title" class="form-control" name="video_title" required>
                             </div>
                             <div class="form-group">
                                 <label for="desc">Video Description:</label>
-                                <textarea class="form-control" name="video_description" rows="3"></textarea>
+                                <textarea class="form-control" name="video_description" rows="3" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleSelect1">Select Category</label>
-                                <select class="form-control" id="category" name="category">
+                                <select class="form-control" id="category" name="category" required>
                                     <option value="">--Select--</option>
                                     <option value="1">Arts</option>
                                     <option value="2">Education</option>
@@ -51,24 +51,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleVideo">Upload Video thumbnail</label>
-                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4,video/x-m4v,video/*"
-                                    id="videoFile" required>
+                                <input type="file" name="videoThumb" class="form-control-file" accept="image/*" id="videoThumb"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleVideo">Upload Video file</label>
-                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4,video/x-m4v,video/*"
-                                    id="videoFile" required>
+                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4" id="videoFile"
+                                    required>
                             </div>
                             <div class="form-group">
-                                <label for="examplePrivateVideo">Is Video Private?</label> <br />
+                                <label for="examplePrivateVideo">Is Video Public?</label> <br />
 
-                                <input type="checkbox" name="videoPrivate" id="videoPrivate" autocomplete="off" />
+                                <input type="checkbox" name="videoPublic" id="videoPublic" autocomplete="off" />
                                 <div class="btn-group">
-                                    <label for="videoPrivate" class="btn btn-info">
+                                    <label for="videoPublic" class="btn btn-info">
                                         <span class="glyphicon glyphicon-ok"></span>
                                         <span> </span>
                                     </label>
-                                    <label for="videoPrivate" class="btn btn-default active">
+                                    <label for="videoPublic" class="btn btn-default active">
                                         Make this Video Public
                                     </label>
                                 </div>
