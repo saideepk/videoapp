@@ -62,27 +62,43 @@ let sessObj = function(req, res) {
   return messages;
 };
 
-let getCategories = function(callback) {
-  db.query(
-    "SELECT * FROM categories WHERE status='Active'",
-    (error, results, fields) => {
-      if (error) {
-        console.log(err);
-        callback(true);
-        return;
-      }
-      callback(false, results);
+function getCategories(req, res, next) {
+  var query = "SELECT * FROM categories WHERE status = 'Active'";
+  db.query(query, function(error, rows) {
+    if (rows.length > 0) {
+      req.sidebarData = rows;
+      return next();
     }
-  );
-};
+  });
+}
+
+function getDashboardVideos(req, res, next) {
+  var query =
+    "SELECT * FROM videos WHERE status = 'Active' and isPublic='true' ";
+  db.query(query, function(error, rows) {
+    if (rows.length > 0) {
+      req.dashBoardData = rows;
+      return next();
+    }
+  });
+}
+
+function renderPage(req, res) {
+  const myDataObj = sessObj(req, res);
+  res.render("pages/index", {
+    data: myDataObj,
+    sideBar: req.sidebarData,
+    dashboard: req.dashBoardData
+  });
+}
 
 //Categorizing Routes
 app.get("*", function(req, res, next) {
-  const myDataObj = sessObj(req, res);
+  sess = req.session;
   if (req.url === "/") {
     return next();
   } else {
-    if (!myDataObj.isloggedin) {
+    if (!sess.isloggedin) {
       res.redirect("/");
     } else {
       return next();
@@ -90,36 +106,31 @@ app.get("*", function(req, res, next) {
   }
 });
 
-app.get("/", function(req, res) {
-  const myDataObj = sessObj(req, res);
-  getCategories(function(err, results) {
-    res.render("pages/index", {
-      data: myDataObj,
-      sidebarData: results
-    });
-  });
-});
+app.get("/", getCategories, getDashboardVideos, renderPage);
 
-app.get("/upload", function(req, res) {
+app.get("/upload", getCategories, function(req, res) {
   const myDataObj = sessObj(req, res);
   res.render("pages/upload", {
     v_message: req.flash("statusMsg"),
-    data: myDataObj
+    data: myDataObj,
+    sideBar: req.sidebarData
   });
 });
 
-app.get("/manage", function(req, res) {
+app.get("/manage", getCategories, function(req, res) {
   const myDataObj = sessObj(req, res);
   res.render("pages/manage", {
-    data: myDataObj
+    data: myDataObj,
+    sideBar: req.sidebarData
   });
 });
 
-app.get("/messages", function(req, res) {
+app.get("/messages", getCategories, function(req, res) {
   const myDataObj = sessObj(req, res);
   res.render("pages/messages", {
     infoMessages: req.flash("info"),
-    data: myDataObj
+    data: myDataObj,
+    sideBar: req.sidebarData
   });
 });
 
@@ -128,7 +139,7 @@ app.post("/uploadProcess", upload.single("videoFile"), function(
   res,
   next
 ) {
-  const userId = 1;
+  const userId = req.session.userId;
   const videoTitle = req.body.video_title;
   const videoDesc = req.body.video_description;
   const videoDuration = "0:00";

@@ -23,99 +23,43 @@
                     <div class="recommended-grids english-grid">
                         <div class="recommended-info">
                             <div class="heading">
-                                <h3>MCA Videos</h3>
+                                <h3>Browse Videos </h3>
                             </div>
-
+                            <% console.log(dashboard); %>
                             <div class="clearfix"> </div>
                         </div>
+                        <% if(dashboard && dashboard.length > 0){ %>
+                        <% dashboard.forEach(function(item){ %>
+                        <% let videohref = "/video/"+item.video_id; %>
+
                         <div class="col-md-3 resent-grid recommended-grid movie-video-grid">
                             <div class="resent-grid-img recommended-grid-img">
-                                <a href="single_new.html"><img src="assets/images/mv4.jpg" alt="" /></a>
-                                <div class="time small-time show-time movie-time">
-                                    <p>7:34</p>
-                                </div>
-                                <div class="clck movie-clock">
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                                </div>
+                                <a href=<%=videohref %> class=
+                                    <%= item.video_name %>><img src="assets/images/mv4.jpg" alt="" /></a>
+
                             </div>
                             <div class="resent-grid-info recommended-grid-info recommended-grid-movie-info">
-                                <h5><a href="single_new.html" class="title">Varius sit sed viverra Nullam interdum metus</a></h5>
+                                <h5><a href=<%=videohref %> class=
+                                        <%= item.video_name %>>
+                                        <%= item.video_name %></a></h5>
                                 <ul>
                                     <li>
                                         <p class="author author-info"><a href="#" class="author">Saideep</a></p>
                                     </li>
                                     <li class="right-list">
-                                        <p class="views views-info">2,114,200 views</p>
+                                        <p class="views views-info">0 views</p>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-3 resent-grid recommended-grid movie-video-grid">
-                            <div class="resent-grid-img recommended-grid-img">
-                                <a href="single_new.html"><img src="assets/images/mv4.jpg" alt="" /></a>
-                                <div class="time small-time show-time movie-time">
-                                    <p>9:34</p>
-                                </div>
-                                <div class="clck movie-clock">
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="resent-grid-info recommended-grid-info recommended-grid-movie-info">
-                                <h5><a href="single_new.html" class="title">Varius sit sed viverra Nullam interdum metus</a></h5>
-                                <ul>
-                                    <li>
-                                        <p class="author author-info"><a href="#" class="author">Saideep</a></p>
-                                    </li>
-                                    <li class="right-list">
-                                        <p class="views views-info">2,114,200 views</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-3 resent-grid recommended-grid movie-video-grid">
-                            <div class="resent-grid-img recommended-grid-img">
-                                <a href="single_new.html"><img src="assets/images/mv4.jpg" alt="" /></a>
-                                <div class="time small-time show-time movie-time">
-                                    <p>3:04</p>
-                                </div>
-                                <div class="clck movie-clock">
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="resent-grid-info recommended-grid-info recommended-grid-movie-info">
-                                <h5><a href="single_new.html" class="title">Varius sit sed viverra Nullam interdum metus</a></h5>
-                                <ul>
-                                    <li>
-                                        <p class="author author-info"><a href="#" class="author">Saideep</a></p>
-                                    </li>
-                                    <li class="right-list">
-                                        <p class="views views-info">2,114,200 views</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-3 resent-grid recommended-grid movie-video-grid">
-                            <div class="resent-grid-img recommended-grid-img">
-                                <a href="single_new.html"><img src="assets/images/mv4.jpg" alt="" /></a>
-                                <div class="time small-time show-time movie-time">
-                                    <p>2:06</p>
-                                </div>
-                                <div class="clck movie-clock">
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="resent-grid-info recommended-grid-info recommended-grid-movie-info">
-                                <h5><a href="single_new.html" class="title">Varius sit sed viverra Nullam interdum metus</a></h5>
-                                <ul>
-                                    <li>
-                                        <p class="author author-info"><a href="#" class="author">Saideep</a></p>
-                                    </li>
-                                    <li class="right-list">
-                                        <p class="views views-info">2,114,200 views</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <% }) %>
+                        <% } else { %>
+
+                        No Videos found
+                        <% } %>
+
+
+
                         <div class="clearfix"> </div>
                     </div>
                 </div>

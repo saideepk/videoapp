@@ -556,6 +556,7 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 
 .resent-grid {
     padding-left: 0.1em;
+    width: 250px;
 }
 
 .resent-grid-img {
@@ -572,7 +573,8 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .resent-grid a img {
-    width: 100%;
+    width: 234px;
+    height: auto;
 }
 
 .time {
@@ -846,7 +848,7 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .english-grid {
-    margin-top: 1em;
+    margin-top: 0;
 }
 
 /*-- footer --*/
