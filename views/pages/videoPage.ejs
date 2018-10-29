@@ -25,108 +25,113 @@
     let videoUploadedOn = videoData.video_uploadedon;
     let videoCount = videoData.video_views;
     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    let splitDate = videoUploadedOn.split(" ")[0];
-    let getDateparams = splitDate.split("-");
-    let getDate = getDateparams[2];
-    let monthInName = months[getDateparams[1]];
-    let getFullYear = getDateparams[0];
+    let splitDate = videoUploadedOn.split(",")[0];
+    let getDateparams = splitDate.split("/");
+    let getDate = getDateparams[1];
+    let monthInName = months[getDateparams[0]];
+    let getFullYear = getDateparams[2];
     let finalString  = monthInName+" "+getDate+","+ getFullYear;
     %>
 
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div class="show-top-grids">
-            <div class="col-sm-12 single-left">
-                <div class="song">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="show-top-grids">
+                <div class="col-sm-12 single-left">
+                    <div class="song">
 
-                    <div class="video-grid">
-                        <video width="100%" height="100%" controls>
+                        <div class="video-grid">
+                            <video width="920px" height="480px" controls>
                             <source src=<%=videoSrc %> type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
+                        </div>
                     </div>
-                </div>
-                <div class="published">
-                    <div class="load_more">
-                        <ul id="myList">
-                            <li style="display: list-item;">
-                                <h3>
-                                    <%= videoTitle %>
-                                </h3>
-                                <h4 style="display:block; margin:5px 0;font-size:13px;">
-                                    <%= videoCount %> Views</h4>
-                                <h4>Published on
-                                    <%= finalString %>
-                                </h4>
-                                <p>
-                                    <%= videoDesc %>
-                                </p>
-                            </li>
+                    <div class="published">
+                        <div class="load_more">
+                            <ul id="myList">
+                                <li style="display: list-item;">
+                                    <h3>
+                                        <%= videoTitle %>
+                                    </h3>
+                                    <h4 style="display:block; margin:5px 0;font-size:13px;">
+                                        <%= videoCount %> Views</h4>
+                                    <h4>Published on
+                                        <%= finalString %>
+                                    </h4>
+                                    <p>
+                                        <%= videoDesc %>
+                                    </p>
+                                </li>
 
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="all-comments">
-                    <div class="all-comments-info">
-                        <% if (v_message.length > 0) { %>
-                        <div class="alert alert-info alert-dismissible">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <b>
+                    <div class="all-comments">
+                        <div class="all-comments-info">
+                            <% if (v_message.length > 0) { %>
+                                <div class="alert alert-info alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <b>
                                 <%= v_message %></b>
-                        </div>
-                        <% } else {                     
+                                </div>
+                                <% } else {                     
                                 } %>
-                               
 
-                        <a href="#">All Comments (<%= commentData.length %>)</a>
-                        <div class="box">
-                            <form method="POST" action="/commentsProcess">
-                                <input type="text" name="comment_name" placeholder="Name" required=" ">
-                                <input type="text" name="comment_email" placeholder="Email" required=" ">
-                                <input type="text" name="comment_phone" placeholder="Phone" required=" ">
-                                <textarea name="comments" placeholder="Message" required=" "></textarea>
-                                <input type="hidden" name="video_id" value=<%=videoId %> />
-                                <input type="submit" value="Post Comment">
-                                <div class="clearfix"> </div>
-                            </form>
+
+                                    <a href="#">All Comments (<%= commentData.length %>)</a>
+                                    <div class="box">
+                                        <form method="POST" action="/commentsProcess">
+                                            <input type="text" name="comment_name" placeholder="Name" required=" ">
+                                            <input type="text" name="comment_email" placeholder="Email" required=" ">
+                                            <input type="text" name="comment_phone" placeholder="Phone" required=" ">
+                                            <textarea name="comments" placeholder="Message" required=" "></textarea>
+                                            <input type="hidden" name="video_id" value=<%=videoId %> />
+                                            <input type="submit" value="Post Comment">
+                                            <div class="clearfix"> </div>
+                                        </form>
+                                    </div>
+
                         </div>
+                        <div class="media-grids">
 
-                    </div>
-                    <div class="media-grids">
-                           
                             <% if(commentData && commentData.length > 0){ %>
-                                <% commentData.forEach(function(item){ %> 
+                                <% commentData.forEach(function(item){ %>
                                     <% console.log(item); %>
-                        <div class="media">
-                            <h5><%= item.name; %></h5>
-                            <div class="media-left">
-                                
-                            </div>
-                            <div class="media-body">
-                                <p> <%= item.comments; %> </p>
-                            </div>
-                        </div>
-                        <% }) %>
-                        <% } else { %>
-                            <div class="media">
-                                    <h5>No Comments </h5> </div>
-                        <% } %>
+                                        <div class="media">
+                                            <h5>
+                                                <%= item.name; %>
+                                            </h5>
+                                            <div class="media-left">
 
+                                            </div>
+                                            <div class="media-body">
+                                                <p>
+                                                    <%= item.comments; %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <div class="media">
+                                                    <h5>No Comments </h5>
+                                                </div>
+                                                <% } %>
+
+                        </div>
                     </div>
                 </div>
+
+
+                <!---300x250--->
+
+                <div class="clearfix"> </div>
+            </div>
+            <!-- footer -->
+            <div class="footer">
+                <% include ../partials/footer %>
             </div>
 
-
-            <!---300x250--->
-
-            <div class="clearfix"> </div>
+            <!-- //footer -->
         </div>
-        <!-- footer -->
-        <div class="footer">
-            <% include ../partials/footer %>
-        </div>
-
-        <!-- //footer -->
-    </div>
 </body>
 
 </html>
