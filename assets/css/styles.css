@@ -575,8 +575,8 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .resent-grid a img {
-    width: 234px;
-    height: auto;
+    width: 258px;
+    height: 345px;
 }
 
 .time {
@@ -1290,6 +1290,7 @@ select.form-control.bfh-countries:hover {
 
 .single-left {
     padding-bottom: 2em;
+    width: 930px;
 }
 
 .song-info-left {

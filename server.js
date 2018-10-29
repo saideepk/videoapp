@@ -97,7 +97,7 @@ function renderPage(req, res) {
 }
 //Categorizing Routes
 
-app.all('*', function(req, res, next) {
+app.get('*', function(req, res, next) {
 	sess = req.session;
 	console.log(req.url);
 	var string = req.url;
@@ -105,12 +105,12 @@ app.all('*', function(req, res, next) {
 	var ex2 = string.includes('/video/');
 
 	if (req.url === '/' || ex1 === true || ex2 === true) {
-		next();
+		return next();
 	} else {
 		if (!sess.isloggedin) {
 			res.redirect('/');
 		} else {
-			next();
+			return next();
 		}
 	}
 });
