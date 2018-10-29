@@ -23,18 +23,21 @@
     let videoDesc = videoData.video_description;
     let videoSrc = "/public/media/"+userid+"/"+videoData.video_upload_path;    
     let videoUploadedOn = videoData.video_uploadedon;
+    let videoCount = videoData.video_views;
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let splitDate = videoUploadedOn.split(" ")[0];
+    let getDateparams = splitDate.split("-");
+    let getDate = getDateparams[2];
+    let monthInName = months[getDateparams[1]];
+    let getFullYear = getDateparams[0];
+    let finalString  = monthInName+" "+getDate+","+ getFullYear;
     %>
-
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="show-top-grids">
             <div class="col-sm-12 single-left">
                 <div class="song">
-                    <div class="song-info">
-                        <h3>
-                            <%= videoTitle %>
-                        </h3>
-                    </div>
+
                     <div class="video-grid">
                         <video width="100%" height="100%" controls>
                             <source src=<%=videoSrc %> type="video/mp4">
@@ -46,8 +49,13 @@
                     <div class="load_more">
                         <ul id="myList">
                             <li style="display: list-item;">
+                                <h3>
+                                    <%= videoTitle %>
+                                </h3>
+                                <h4 style="display:block; margin:5px 0;font-size:13px;">
+                                    <%= videoCount %> Views</h4>
                                 <h4>Published on
-                                    <%= videoUploadedOn %>
+                                    <%= finalString %>
                                 </h4>
                                 <p>
                                     <%= videoDesc %>
@@ -59,13 +67,24 @@
                 </div>
                 <div class="all-comments">
                     <div class="all-comments-info">
-                        <a href="#">All Comments (8,657)</a>
+                        <% if (v_message.length > 0) { %>
+                        <div class="alert alert-info alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <b>
+                                <%= v_message %></b>
+                        </div>
+                        <% } else {                     
+                                } %>
+                               
+
+                        <a href="#">All Comments (<%= commentData.length %>)</a>
                         <div class="box">
-                            <form>
-                                <input type="text" placeholder="Name" required=" ">
-                                <input type="text" placeholder="Email" required=" ">
-                                <input type="text" placeholder="Phone" required=" ">
-                                <textarea placeholder="Message" required=" "></textarea>
+                            <form method="POST" action="/commentsProcess">
+                                <input type="text" name="comment_name" placeholder="Name" required=" ">
+                                <input type="text" name="comment_email" placeholder="Email" required=" ">
+                                <input type="text" name="comment_phone" placeholder="Phone" required=" ">
+                                <textarea name="comments" placeholder="Message" required=" "></textarea>
+                                <input type="hidden" name="video_id" value=<%=videoId %> />
                                 <input type="submit" value="Post Comment">
                                 <div class="clearfix"> </div>
                             </form>
@@ -73,20 +92,24 @@
 
                     </div>
                     <div class="media-grids">
+                           
+                            <% if(commentData && commentData.length > 0){ %>
+                                <% commentData.forEach(function(item){ %> 
+                                    <% console.log(item); %>
                         <div class="media">
-                            <h5>Tom Brown</h5>
+                            <h5><%= item.name; %></h5>
                             <div class="media-left">
-                                <a href="#">
-
-                                </a>
+                                
                             </div>
                             <div class="media-body">
-                                <p>Maecenas ultricies rhoncus tincidunt maecenas imperdiet ipsum id ex pretium
-                                    hendrerit maecenas imperdiet ipsum id ex pretium hendrerit</p>
-                                <span>View all posts by :<a href="#"> Admin </a></span>
+                                <p> <%= item.comments; %> </p>
                             </div>
                         </div>
-
+                        <% }) %>
+                        <% } else { %>
+                            <div class="media">
+                                    <h5>No Comments </h5> </div>
+                        <% } %>
 
                     </div>
                 </div>

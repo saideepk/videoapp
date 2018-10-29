@@ -21,8 +21,10 @@
             <div class="main-grids about-main-grids">
                 <div class="recommended-info" id="fileuploadContainer">
                     <% if (v_message.length > 0) { %>
-                    <div class="alert alert-warning">
-                        <%= v_message %>
+                    <div class="alert alert-info alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <b>
+                            <%= v_message %></b>
                     </div>
                     <% } else {                     
                     } %>
