@@ -11,7 +11,7 @@
             <% include ../partials/nav %>
         </div>
     </nav>
-    <div class="col-sm-3 col-md-2 sidebar">
+    <div class="col-sm-3 col-md-2 manageData">
         <div class="drop-navigation drop-navigation">
             <% include ../partials/sidebar %>
         </div>
@@ -21,24 +21,44 @@
             <div class="main-grids about-main-grids">
                 <div class="recommended-info">
                     <h3>
-                        Manage Videos of
-                        <%= data.name %>
-
+                        Manage Videos of <%= data.name %>
+                        <% console.log(manageData) %>
                     </h3>
+                  
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>Email</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Total Views</th>
+                                <th>Is Public</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                                <% if(manageData && manageData.length > 0){ %>
+                                <% manageData.forEach(function(item){ %> 
+                                <% let videohref = "/video/"+item.video_id; %>
                             <tr>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
+                                <td><a href=<%= videohref; %>><%= item.video_name %></a></td>
+                                <td style="width: 500px;"><%= item.video_description %></td>
+                                <td><%= item.video_views %></td>
+                                <td><%= item.isPublic %></td>
+                                <td>
+                                        <button type="button" class="btn btn-default btn-sm">
+                                                <span class="glyphicon glyphicon-pencil"></span> Update 
+                                              </button>
+                                              <button type="button" class="btn btn-danger btn-sm">
+                                                    <span class="glyphicon glyphicon-remove"></span> Delete 
+                                                  </button>
+                                </td>
                             </tr>
+                            <% }) %>
+                            <% } else { %>
+                                <tr>
+                                        <td colspan="5">No videos uploaded</td>
+                                    </tr>
+                                <% } %>
                         </tbody>
                     </table>
 

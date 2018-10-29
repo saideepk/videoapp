@@ -187,14 +187,28 @@ app.get('/video/:id', getCategories, function(req, res, next) {
 	});
 });
 
-app.get('/manage', getCategories, function(req, res) {
+app.get('/manage', getCategories, function(req, res, next) {
+	console.log('manage page hit');
+	sess = req.session;
 	const myDataObj = sessObj(req, res);
-	res.render('pages/manage', {
-		data: myDataObj,
-		sideBar: req.sidebarData
+	var query = 'SELECT * FROM videos WHERE user_id =' + sess.userId + '  ';
+	db.query(query, function(error, rows) {
+		if (rows && rows !== undefined && rows.length > 0) {
+			const manageVideoData = rows;
+			res.render('pages/manage', {
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				manageData: manageVideoData
+			});
+		} else {
+			res.render('pages/manage', {
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				manageData: []
+			});
+		}
 	});
 });
-
 app.get('/messages', getCategories, function(req, res) {
 	const myDataObj = sessObj(req, res);
 	res.render('pages/messages', {
