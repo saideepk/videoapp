@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/header %>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <% include ../partials/nav %>
+        </div>
+    </nav>
+    <div class="col-sm-3 col-md-2 manageData">
+        <div class="drop-navigation drop-navigation">
+            <% include ../partials/sidebar %>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="show-top-grids">
+            <div class="main-grids about-main-grids">
+                <div class="recommended-info">
+                    <h3>
+                        Manage Videos of <%= data.name %>
+                        <% console.log(manageData) %>
+                    </h3>
+                  
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Total Views</th>
+                                <th>Is Public</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <% if(manageData && manageData.length > 0){ %>
+                                <% manageData.forEach(function(item){ %> 
+                                <% let videohref = "/video/"+item.video_id; %>
+                            <tr>
+                                <td><a href=<%= videohref; %>><%= item.video_name %></a></td>
+                                <td style="width: 500px;"><%= item.video_description %></td>
+                                <td><%= item.video_views %></td>
+                                <td><%= item.isPublic %></td>
+                                <td>
+                                        <button type="button" class="btn btn-default btn-sm">
+                                                <span class="glyphicon glyphicon-pencil"></span> Update 
+                                              </button>
+                                              <button type="button" class="btn btn-danger btn-sm">
+                                                    <span class="glyphicon glyphicon-remove"></span> Delete 
+                                                  </button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                            <% } else { %>
+                                <tr>
+                                        <td colspan="5">No videos uploaded</td>
+                                    </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div class="footer">
+            <% include ../partials/footer %>
+        </div>
+
+        <!-- //footer -->
+    </div>
+</body>
+
+</html>

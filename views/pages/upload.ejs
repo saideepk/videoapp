@@ -20,49 +20,61 @@
         <div class="show-top-grids">
             <div class="main-grids about-main-grids">
                 <div class="recommended-info" id="fileuploadContainer">
+                    <% if (v_message.length > 0) { %>
+                    <div class="alert alert-info alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <b>
+                            <%= v_message %></b>
+                    </div>
+                    <% } else {                     
+                    } %>
                     <h3>Upload a Video</h3>
 
                     <div class="box">
                         <form action="/uploadProcess" enctype="multipart/form-data" method="post">
                             <div class="form-group">
                                 <label for="Title">Video Title:</label>
-                                <input type="Title" class="form-control" name="video_title">
+                                <input type="Title" class="form-control" name="video_title" required>
                             </div>
                             <div class="form-group">
                                 <label for="desc">Video Description:</label>
-                                <textarea class="form-control" name="video_description" rows="3"></textarea>
+                                <textarea class="form-control" name="video_description" rows="3" required></textarea>
                             </div>
-
-
                             <div class="form-group">
                                 <label for="exampleSelect1">Select Category</label>
-                                <select class="form-control" id="category" name="category">
+                                <select class="form-control" id="category" name="category" required>
                                     <option value="">--Select--</option>
                                     <option value="1">Arts</option>
                                     <option value="2">Education</option>
-                                      <option value="3">Entertainment</option>
-                                      <option value="4">Science</option>
-                                      <option value="5">Technology</option>
-                                    </select>
+                                    <option value="3">Entertainment</option>
+                                    <option value="4">Science</option>
+                                    <option value="5">Technology</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleVideo">Upload Video thumbnail</label>
+                                <input type="file" name="videoThumb" class="form-control-file" accept="image/*" id="videoThumb"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleVideo">Upload Video file</label>
-                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" required>
+                                <input type="file" name="videoFile" class="form-control-file" accept="video/mp4" id="videoFile"
+                                    required>
                             </div>
                             <div class="form-group">
-                                <label for="examplePrivateVideo">Is Video Private?</label> <br/>
+                                <label for="examplePrivateVideo">Is Video Public?</label> <br />
 
-                                <input type="checkbox" name="videoPrivate" id="videoPrivate" autocomplete="off" />
+                                <input type="checkbox" name="videoPublic" id="videoPublic" autocomplete="off" />
                                 <div class="btn-group">
-                                    <label for="videoPrivate" class="btn btn-info">
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                                <span> </span>
-                                            </label>
-                                    <label for="videoPrivate" class="btn btn-default active">
-                                                Make this Video Public
-                                            </label>
+                                    <label for="videoPublic" class="btn btn-info">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                        <span> </span>
+                                    </label>
+                                    <label for="videoPublic" class="btn btn-default active">
+                                        Make this Video Public
+                                    </label>
                                 </div>
-                            </div> <br/>
+                            </div> <br />
                             <button type="submit" class="btn btn-primary">Upload This Video</button>
                         </form>
                     </div>

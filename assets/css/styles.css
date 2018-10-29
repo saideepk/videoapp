@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 body {
     background: #fff;
-    font-size: 100%;
+    font-size: 12px;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -77,7 +77,7 @@ form.navbar-form.navbar-right {
     right: 26px;
 }
 
-#micSearch {
+#start-record-btn {
     background: url(/assets/images/mic.png) no-repeat 0px 0px !important;
     width: 20px !important;
     height: 24px !important;
@@ -263,7 +263,6 @@ ul.cl-effect-2 {
     margin: 0 0 0 1em;
     font-size: 11px !important;
 }
-
 
 /*-- Slider Part starts Here --*/
 
@@ -511,7 +510,6 @@ ul.social-slide li i.mac {
     margin: 0 .5em;
 }
 
-
 /*----*/
 
 .callbacks_tabs a {
@@ -558,10 +556,13 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 
 .resent-grid {
     padding-left: 0.1em;
+    width: 275px;
+    margin: 0 0 20px 0;
 }
 
 .resent-grid-img {
     position: relative;
+    box-shadow: 0px 0 1px #C1C1C1 !important;
 }
 
 .resent-grid-img iframe {
@@ -574,7 +575,8 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .resent-grid a img {
-    width: 100%;
+    width: 258px;
+    height: 345px;
 }
 
 .time {
@@ -653,7 +655,6 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
     bottom: 1%;
 }
 
-
 /*
 .resent-grid-img:hover div.time{
 	display:none;
@@ -709,7 +710,6 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
     color: #9E9E9E;
     margin: 0;
 }
-
 
 /*-- recommended --*/
 
@@ -813,7 +813,7 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .recommended-grid-info {
-    box-shadow: 0px 0 2px #C1C1C1 !important;
+    box-shadow: 0px 0 1px #C1C1C1 !important;
     background: none;
 }
 
@@ -850,9 +850,8 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .english-grid {
-    margin-top: 1em;
+    margin-top: 0;
 }
-
 
 /*-- footer --*/
 
@@ -996,11 +995,10 @@ select.form-control.bfh-countries:hover {
     -ms-transition: 0.5s all;
 }
 
-
 /*-- single --*/
 
 .song {
-    width: 80%;
+    width: 100%;
     float: left;
 }
 
@@ -1116,7 +1114,6 @@ select.form-control.bfh-countries:hover {
     color: #525254;
 }
 
-
 /*-- shows --*/
 
 .show-top-grids {
@@ -1180,7 +1177,6 @@ select.form-control.bfh-countries:hover {
     width: 100%;
 }
 
-
 /*-- history --*/
 
 .recommended-info p.history-text {
@@ -1226,7 +1222,6 @@ select.form-control.bfh-countries:hover {
     margin: 0;
     line-height: 1.8em;
 }
-
 
 /* Shutter In Vertical */
 
@@ -1287,7 +1282,6 @@ select.form-control.bfh-countries:hover {
     transform: scaleY(0);
 }
 
-
 /*-- single --*/
 
 .single-main {
@@ -1296,37 +1290,36 @@ select.form-control.bfh-countries:hover {
 
 .single-left {
     padding-bottom: 2em;
+    width: 930px;
 }
 
 .song-info-left {
     float: left;
 }
 
-
 /*-- published --*/
 
 .published {
-    margin: 1em 0 0 0;
     padding-left: 0;
     background: #f7f7f7;
     padding: 1em;
+    float: left;
 }
 
 .published h4 {
     color: #717171;
     font-size: 13px;
-    margin: 0;
+    margin: 10px 0;
     line-height: 1.5em;
     font-weight: 600;
+    display: inline-block;
 }
 
 .published p {
     font-size: 13px;
     color: #9E9E9E;
-    margin: 1em 0;
     line-height: 1.8em;
 }
-
 
 /*-- load-more --*/
 
@@ -1414,10 +1407,9 @@ select.form-control.bfh-countries:hover {
 }
 
 .all-comments {
-    margin: 1em 0 0 0;
+    float: left;
     padding-left: 0;
     padding: 3em 1em;
-    box-shadow: 0px 0 2px #C1C1C1 !important;
 }
 
 .all-comments-info a {
@@ -1629,7 +1621,6 @@ select.form-control.bfh-countries:hover {
     padding-right: 0;
 }
 
-
 /*-- about --*/
 
 .about-main-grids {
@@ -1698,7 +1689,6 @@ span.glyphicon.glyphicon-user {
     margin-top: 2em;
 }
 
-
 /*-- terms --*/
 
 .terms-info {
@@ -1727,7 +1717,6 @@ span.glyphicon.glyphicon-user {
 .terms-info-grid p.terms-info-text {
     margin: 1em 0 0 1em;
 }
-
 
 /*-- news --*/
 
@@ -1775,7 +1764,6 @@ span.glyphicon.glyphicon-user {
     text-decoration: none;
 }
 
-
 /*-- copyright --*/
 
 .copy-info ol {
@@ -1815,7 +1803,6 @@ span.glyphicon.glyphicon-user {
 .copy-grid {
     margin-top: 3em;
 }
-
 
 /*-- developers --*/
 
@@ -1869,7 +1856,6 @@ span.glyphicon.glyphicon-user {
     color: #9E9E9E;
     margin: 1em 0 0 0;
 }
-
 
 /*-- creators --*/
 
@@ -1975,7 +1961,6 @@ span.glyphicon.glyphicon-user {
     color: #FFFFFF;
 }
 
-
 /*-- try --*/
 
 .try-banner {
@@ -2022,7 +2007,6 @@ span.glyphicon.glyphicon-user {
 .try-right-left img {
     width: 100%;
 }
-
 
 /*-- upload --*/
 
@@ -2206,9 +2190,7 @@ span.glyphicon.glyphicon-user {
     display: none;
 }
 
-
 /* File Upload Css */
-
 
 /*-- responsive-design starts-here --*/
 

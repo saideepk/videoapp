@@ -1,192 +1,390 @@
-const fs = require("fs");
-const express = require("express");
-const session = require("express-session");
-const bodyParser = require("body-parser");
-const path = require("path");
-const db = require("./config/db");
-const sign = require("./routes/signRoutes.js");
-const multer = require("multer");
-const flash = require("connect-flash");
-const morgan = require("morgan");
-
+const fs = require('fs');
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const path = require('path');
+const db = require('./models/db');
+const sign = require('./routes/signRoutes.js');
+const multer = require('multer');
+const flash = require('connect-flash');
+const morgan = require('morgan');
 const app = express();
-var sess;
 
+var sess;
 var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/videos/1");
-  },
-  filename: (req, file, cb) => {
-    fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
-    cb(null, file.fieldname + "-" + Date.now() + "." + fileExtension);
-  }
+	destination: (req, file, cb) => {
+		var upsess = req.session;
+		const userId = sess.userId;
+		cb(null, 'public/media/' + userId);
+	},
+	filename: (req, file, cb) => {
+		fileExtension = file.originalname.split('.')[1]; // get file extension from original file name
+		cb(null, file.fieldname + '-' + Date.now() + '.' + fileExtension);
+	}
 });
 var upload = multer({ storage: storage });
 
 //middlewares.
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname)));
 app.use(
-  session({
-    secret: "videoUserLoggedIn",
-    name: "videoUserLoggedIn",
-    resave: true,
-    saveUninitialized: true
-  })
+	session({
+		secret: 'videoUserLoggedIn',
+		name: 'videoUserLoggedIn',
+		resave: true,
+		saveUninitialized: true
+	})
 );
-app.use(flash());
 
-app.use("/assets", express.static(__dirname + "/assets"));
-app.use("/sign", sign.myRouter);
+app.use(flash());
+app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/sign', sign.myRouter);
 
 // set the view engine to ejs
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
+let sessObj = function(req, res) {
+	let messages;
+	sess = req.session;
+	if (sess.isloggedin) {
+		var obj = {
+			isloggedin: true,
+			name: sess.name,
+			userId: sess.userId
+		};
+		messages = obj;
+	} else {
+		messages = { isloggedin: false };
+	}
+	return messages;
+};
+
+function getCategories(req, res, next) {
+	var query = "SELECT * FROM categories WHERE status = 'Active'";
+	db.query(query, function(error, rows) {
+		if (rows.length > 0) {
+			req.sidebarData = rows;
+			return next();
+		} else {
+			req.sidebarData = [];
+			return next();
+		}
+	});
+}
+
+function getDashboardVideos(req, res, next) {
+	var query = "SELECT * FROM videos WHERE status = 'Active' and isPublic='true' ";
+	db.query(query, function(error, rows) {
+		if (rows.length > 0) {
+			req.dashBoardData = rows;
+			return next();
+		} else {
+			req.dashBoardData = [];
+			return next();
+		}
+	});
+}
+function renderPage(req, res) {
+	const myDataObj = sessObj(req, res);
+	res.render('pages/index', {
+		data: myDataObj,
+		sideBar: req.sidebarData,
+		dashboard: req.dashBoardData
+	});
+}
 //Categorizing Routes
-app.get("/", function(req, res) {
-  sess = req.session;
 
-  if (sess.isloggedin) {
-    res.render("pages/dashboard", {
-      text: "Hellloooo"
-    });
-  } else {
-    res.render("pages/index");
-  }
+app.get('*', function(req, res, next) {
+	sess = req.session;
+	console.log(req.url);
+	var string = req.url;
+	var ex1 = string.includes('/category/');
+	var ex2 = string.includes('/video/');
+
+	if (req.url === '/' || ex1 === true || ex2 === true) {
+		return next();
+	} else {
+		if (!sess.isloggedin) {
+			res.redirect('/');
+		} else {
+			return next();
+		}
+	}
 });
 
-app.get("/upload", function(req, res) {
-  res.render("pages/upload");
+app.get('/', getCategories, getDashboardVideos, renderPage);
+
+app.get('/upload', getCategories, function(req, res) {
+	const myDataObj = sessObj(req, res);
+	res.render('pages/upload', {
+		v_message: req.flash('statusMsg'),
+		data: myDataObj,
+		sideBar: req.sidebarData
+	});
 });
 
-app.get("/messages", function(req, res) {
-  res.render("pages/messages", {
-    message: req.flash("info")
-  });
+app.get('/category/:id', getCategories, function(req, res, next) {
+	console.log('cat page hit');
+	const myDataObj = sessObj(req, res);
+	var query =
+		'SELECT * FROM videos WHERE category_id =' + req.params.id + " and status='Active'  and isPublic='true' ";
+	db.query(query, function(error, rows) {
+		if (rows && rows !== undefined && rows.length > 0) {
+			const catVideoData = rows;
+
+			res.render('pages/category', {
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				dashboard: catVideoData
+			});
+		} else {
+			res.render('pages/category', {
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				dashboard: []
+			});
+		}
+	});
 });
 
-app.post("/uploadProcess", upload.single("videoFile"), function(
-  req,
-  res,
-  next
-) {
-  // req.file is the `avatar` file
-  const userId = 1;
-  const videoTitle = req.body.video_title;
-  const videoDesc = req.body.video_description;
-  const videoDuration = "5:08";
-  const category = req.body.category;
-  const fileUploadedPath = req.file.filename;
-  const fileUploadedOn = new Date().toLocaleString();
-  const isPrivate = req.body.videoPrivate;
-  let assignPrivate;
-  //If Private
-  if (isPrivate === "on") {
-    assignPrivate = false;
-  } else {
-    assignPrivate = true;
-  }
+app.get('/video/:id', getCategories, function(req, res, next) {
+	const myDataObj = sessObj(req, res);
+	var query2 =
+		'SELECT * FROM videos WHERE video_id =' +
+		req.params.id +
+		" and status='Active';" +
+		'SELECT * FROM comments WHERE video_id =' +
+		req.params.id +
+		" and status='Active';";
+	db.query(query2, function(error, rows) {
+		if (rows[0] && rows[0] !== undefined && rows[0].length > 0) {
+			const queryVideoData = rows[0][0];
+			const queryCommentsData = rows[1];
 
-  let insQuery =
-    "INSERT INTO `videos` (user_id, category_id, video_name, video_description, video_duration,video_upload_path, video_uploadedon, isPublic, status) VALUES ('" +
-    userId +
-    "', '" +
-    category +
-    "','" +
-    videoTitle +
-    "', '" +
-    videoDesc +
-    "', '" +
-    videoDuration +
-    "', '" +
-    fileUploadedPath +
-    "', '" +
-    fileUploadedOn +
-    "',  '" +
-    assignPrivate +
-    "', '" +
-    "Active" +
-    "')";
-  db.query(insQuery, function(err, result) {
-    if (err) {
-      throw err;
-    } else {
-      //res.render('pages/index', { data: result });
-      res.redirect("/upload");
-    }
-  });
+			var count = rows[0][0].video_views + 1;
+			let updateQuery = 'update videos set video_views=' + count + ' where video_id=' + req.params.id + '';
+			db.query(updateQuery, function(err, result) {
+				if (err) {
+					console.log('Unable to update video count');
+				} else {
+					console.log('Video Count Updated');
+				}
+			});
+
+			res.render('pages/videoPage', {
+				v_message: req.flash('statusMsg'),
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				videoData: queryVideoData,
+				commentData: queryCommentsData
+			});
+		} else {
+			res.redirect('/');
+		}
+	});
 });
 
-app.post("/loginProcess", function(req, res) {
-  var email = req.body.login_emailId;
-  var password = req.body.login_password;
-  sess = req.session;
-
-  db.query(
-    "SELECT * FROM users WHERE email_id = ? and password=? and status='Active' ",
-    [email, password],
-    function(error, results, fields) {
-      if (error) {
-        req.flash("info", "Query Error, Try again");
-        res.redirect("/messages");
-      } else {
-        if (results.length > 0) {
-          console.log("Logged in");
-
-          sess.isloggedin = true;
-          sess.name = results[0].name;
-          sess.userId = results[0].user_id;
-
-          req.flash("info", "Welcome " + sess.name);
-          res.redirect("/messages");
-        } else {
-          req.flash(
-            "info",
-            "Email and password does not match, Please try again"
-          );
-          res.redirect("/messages");
-        }
-      }
-    }
-  );
+app.get('/manage', getCategories, function(req, res, next) {
+	console.log('manage page hit');
+	sess = req.session;
+	const myDataObj = sessObj(req, res);
+	var query = 'SELECT * FROM videos WHERE user_id =' + sess.userId + '  ';
+	db.query(query, function(error, rows) {
+		if (rows && rows !== undefined && rows.length > 0) {
+			const manageVideoData = rows;
+			res.render('pages/manage', {
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				manageData: manageVideoData
+			});
+		} else {
+			res.render('pages/manage', {
+				data: myDataObj,
+				sideBar: req.sidebarData,
+				manageData: []
+			});
+		}
+	});
+});
+app.get('/messages', getCategories, function(req, res) {
+	const myDataObj = sessObj(req, res);
+	res.render('pages/messages', {
+		infoMessages: req.flash('info'),
+		data: myDataObj,
+		sideBar: req.sidebarData
+	});
 });
 
-app.post("/regProcess", function(req, res) {
-  const name = req.body.name;
-  const phone = req.body.phone;
-  const email_id = req.body.emailId;
-  const password = req.body.password;
-  const status = "Active";
-  let insQuery =
-    "INSERT INTO `users` (name, phone, email_id, password, status) VALUES ('" +
-    name +
-    "', '" +
-    phone +
-    "', '" +
-    email_id +
-    "', '" +
-    password +
-    "', '" +
-    status +
-    "')";
+app.post(
+	'/uploadProcess',
+	upload.fields([
+		{
+			name: 'videoThumb',
+			maxCount: 1
+		},
+		{
+			name: 'videoFile',
+			maxCount: 1
+		}
+	]),
+	function(req, res, next) {
+		const userId = req.session.userId;
+		const videoTitle = req.body.video_title;
+		const videoDesc = req.body.video_description;
+		const category = req.body.category;
+		const thumbUploadedPath = req.files['videoThumb'][0].filename;
+		const videoUploadedPath = req.files['videoFile'][0].filename;
+		const fileUploadedOn = new Date().toLocaleString();
+		const isPublic = req.body.videoPublic;
+		let assignPublic;
+		//If Private
+		if (isPublic === 'on') {
+			assignPublic = true;
+		} else {
+			assignPublic = false;
+		}
 
-  db.query(insQuery, function(err, result) {
-    if (err) {
-      req.flash("info", "Error");
-      res.redirect("/messages");
-    } else {
-      const pkId = result.insertId;
-      const dir = "public/videos/" + pkId;
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-      }
-      req.flash("info", "Success!");
-      res.redirect("/messages");
-    }
-  });
+		let insQuery =
+			"INSERT INTO `videos` (user_id, category_id, video_name,video_description,video_thumbnail,video_upload_path, video_uploadedon, isPublic, status) VALUES ('" +
+			userId +
+			"', '" +
+			category +
+			"','" +
+			videoTitle +
+			"', '" +
+			videoDesc +
+			"', '" +
+			thumbUploadedPath +
+			"', '" +
+			videoUploadedPath +
+			"', '" +
+			fileUploadedOn +
+			"',  '" +
+			assignPublic +
+			"', '" +
+			'Active' +
+			"')";
+		db.query(insQuery, function(err, result) {
+			if (err) {
+				console.log(err);
+				req.flash('statusMsg', 'Record Not inserted, Try again');
+				res.redirect('/upload');
+			} else {
+				req.flash('statusMsg', 'Video added Successfully.');
+				res.redirect('/upload');
+			}
+		});
+	}
+);
+
+app.post('/loginProcess', function(req, res) {
+	var email = req.body.login_emailId;
+	var password = req.body.login_password;
+	sess = req.session;
+
+	db.query(
+		"SELECT * FROM users WHERE email_id = ? and password=? and status='Active' ",
+		[ email, password ],
+		function(error, results, fields) {
+			if (error) {
+				req.flash('info', 'Query Error, Try again');
+				res.redirect('/messages');
+			} else {
+				if (results.length > 0) {
+					sess.isloggedin = true;
+					sess.name = results[0].name;
+					sess.userId = results[0].user_id;
+
+					res.redirect('/');
+				} else {
+					req.flash('info', 'Email and password does not match, Please try again');
+					res.redirect('/messages');
+				}
+			}
+		}
+	);
+});
+
+app.post('/regProcess', function(req, res) {
+	sess = req.session;
+
+	const name = req.body.name;
+	const phone = req.body.phone;
+	const email_id = req.body.emailId;
+	const password = req.body.password;
+	const status = 'Active';
+	let insQuery =
+		"INSERT INTO `users` (name, phone, email_id, password, status) VALUES ('" +
+		name +
+		"', '" +
+		phone +
+		"', '" +
+		email_id +
+		"', '" +
+		password +
+		"', '" +
+		status +
+		"')";
+
+	db.query(insQuery, function(err, result) {
+		if (err) {
+			req.flash('info', 'Error');
+			res.redirect('/messages');
+		} else {
+			const pkId = result.insertId;
+			const dir = 'public/media/' + pkId;
+			if (!fs.existsSync(dir)) {
+				fs.mkdirSync(dir);
+			}
+			sess.isloggedin = true;
+			sess.name = name;
+			sess.userId = pkId;
+			req.flash('info', 'Success!');
+			res.redirect('/');
+		}
+	});
+});
+
+app.post('/commentsProcess', function(req, res) {
+	const name = req.body.comment_name;
+	const email_id = req.body.comment_email;
+	const phone = req.body.comment_phone;
+	const comments = req.body.comments;
+	const video_id = req.body.video_id;
+
+	let insQuery =
+		"INSERT INTO `comments` (video_id,name,phone, email, comments) VALUES ('" +
+		video_id +
+		"', '" +
+		name +
+		"', '" +
+		phone +
+		"', '" +
+		email_id +
+		"', '" +
+		comments +
+		"')";
+
+	db.query(insQuery, function(err, result) {
+		if (err) {
+			req.flash('info', 'Error');
+			res.redirect('/messages');
+		} else {
+			req.flash('statusMsg', 'Comment added Successfully.');
+			res.redirect('/video/' + video_id);
+		}
+	});
+});
+
+app.get('/logout', function(req, res) {
+	sess = req.session;
+	req.session.destroy();
+
+	//req.flash("info", "Session cleared and User Logged Out Successfully. ");
+	res.redirect('/');
 });
 
 app.listen(3000);

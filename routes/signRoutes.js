@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const db = require("../config/db");
+const db = require("../models/db");
 
 const router = express.Router();
 

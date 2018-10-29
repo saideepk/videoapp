@@ -1,24 +1,20 @@
 <div class="navbar-header">
     <a class="navbar-brand" href="/">
-        <h1><img src="assets/images/logo.png" alt="" /></h1>
+        <h1><img src="/assets/images/logo.png" alt="" /></h1>
     </a>
 </div>
 <div id="navbar" class="navbar-collapse collapse">
     <div class="top-search">
-        <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
+        <!-- <form class="navbar-form navbar-right">
+            <input type="text" id="note-textarea" class="form-control" placeholder="Search...">
 
-            <i id="micSearch"></i>
-            <!-- <input type="submit" value=" ">-->
-        </form>
+            <i id="start-record-btn"></i>
+        </form> -->
     </div>
     <div class="header-top-right">
-        <div class="file">
-            <a href="/upload">Upload</a>
-        </div>
+
         <div class="login">
             <!-- <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">Sign Up</a> -->
-
             <div id="small-dialog2" class="mfp-hide">
                 <h3>Create Account</h3>
                 <div class="signup">
@@ -38,22 +34,43 @@
             </div>
 
         </div>
+
+
+        <% if(data.isloggedin) { %>
+        <div class="btn-group navbar-right">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Welcome
+                    <%= data.name %>
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="/upload">Upload a video</a></li>
+                    <li><a href="/manage">Manage videos</a></li>
+                    <!-- <li><a href="/settings">Settings</a></li> -->
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="login"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></div>
+        <% } %>
+
+
+
         <div class="login">
-            <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a>
             <div id="small-dialog" class="mfp-hide">
                 <h3>Login</h3>
 
                 <div class="signup">
                     <form action="/loginProcess" method="POST">
-                        <input type="text" name="login_emailId" placeholder="Enter email id" required="required"
-                            pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
-                        <input type="password" name="login_password" placeholder="Password" required="required" pattern=".{6,}"
-                            title="Minimum 6 characters required" autocomplete="off" />
+                        <input type="text" value="skankarla@gmail.com" name="login_emailId" placeholder="Enter email id"
+                            required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
+                        <input type="password" value="123456" name="login_password" placeholder="Password" required="required"
+                            pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
                         <input type="submit" name="login" value="Login " />
                     </form>
                     <div class="forgot">
-                        <a href="#">Forgot password ?</a> <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">|
-                            Create Account</a>
+                        <!-- <a href="#">Forgot password ?</a> --> <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">
+                          New User, Create Account</a>
                     </div>
                 </div>
                 <div class="clearfix"> </div>
