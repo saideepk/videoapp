@@ -17,21 +17,33 @@ Node.js is an open source, cross-platform runtime environment for developing ser
 
 
 How to Use the application
-> Install the required above two softwares and allow the required permissions, when asked
-> Copy the source from DVD to hard disk (better create a folder in D drive), unzip it, now you have complete source on your machine
-> Next open installed xampp software, search for xampp in start menu, double click to open it.
-> once xampp window is revealed, start apache and mysql by clicking start button on the popup window, this will start apache and mysql services.
-> Under MySQL, click on "Admin" button next to open sql admin in browser.
-> Once PHPMyAdmin opened in browser, Create a Database  by clicking on "New" link on left side, give the name as "videoapp" and save to create database.
-> Click on videoapp database, and click on import button from top-center menu, next click on choose file and select videoapp.sql from the source folder. Click    on Go button to save data, Tables will be imported to database.
-> Now come to desktop, open command prompt and cd to the source folder, there run this two commands to check versions
+Install the required above two softwares and allow the required permissions, when asked
+
+Copy the source from DVD to hard disk (better create a folder in D drive), unzip it, now you have complete source on your machine
+
+Next open installed xampp software, search for xampp in start menu, double click to open it.
+
+Once xampp window is revealed, start apache and mysql by clicking start button on the popup window, this will start apache and mysql services.
+
+Under MySQL, click on "Admin" button next to open sql admin in browser.
+
+Once PHPMyAdmin opened in browser, Create a Database  by clicking on "New" link on left side, give the name as "videoapp" and save to create database.
+
+Click on videoapp database, and click on import button from top-center menu, next click on choose file and select videoapp.sql from the source folder. Click    on Go button to save data, Tables will be imported to database.
+
+Now come to desktop, open command prompt and cd to the source folder, there run this two commands to check versions
     node -v
     npm -v (make sure node version is greater that version 8)
-> next run this command "npm install" on the source folder, this will download all dependencies for the project.
-> after successfull npm install, run this command to start our application "node server.js" and ignore the window for now.
-> go to browser and type "http://localhost:3000/", this will be our project url to access.
-> now start enjoyin the video features by registering and login to the application, after succesfull login you are able to upload and manage videos.
-> Enjoy your private video stream application
+
+Next run this command "npm install" on the source folder, this will download all dependencies for the project.
+
+After successfull npm install, run this command to start our application "node server.js" and ignore the window for now.
+
+Go to browser and type "http://localhost:3000/", this will be our project url to access.
+
+Now start enjoyin the video features by registering and login to the application, after succesfull login you are able to upload and manage videos.
+
+Enjoy your private video stream application
 
 
 
