@@ -558,8 +558,9 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 
 .resent-grid {
     padding-left: 0.1em;
-    width: 275px;
+    width: 210px;
     margin: 0 0 20px 0;
+    height: auto;
 }
 
 .resent-grid-img {
@@ -577,8 +578,8 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 }
 
 .resent-grid a img {
-    width: 258px;
-    height: 345px;
+    width: 100%;
+    height: auto;
 }
 
 .time {
