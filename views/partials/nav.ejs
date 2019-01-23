@@ -5,11 +5,11 @@
 </div>
 <div id="navbar" class="navbar-collapse collapse">
     <div class="top-search">
-        <!-- <form class="navbar-form navbar-right">
+        <form class="navbar-form navbar-right">
             <input type="text" id="note-textarea" class="form-control" placeholder="Search...">
 
             <i id="start-record-btn"></i>
-        </form> -->
+        </form>
     </div>
     <div class="header-top-right">
 
@@ -20,12 +20,9 @@
                 <div class="signup">
                     <form action="/regProcess" method="POST">
                         <input type="text" name="name" placeholder="Name" value="saideep" required="required" title="Enter your full name" />
-                        <input type="text" name="emailId" placeholder="Email" value="saideep.kankarla@gmail.com"
-                            required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" title="Enter a valid email" />
-                        <input type="password" name="password" placeholder="Password" value="12345678" required="required"
-                            pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
-                        <input type="text" name="phone" placeholder="Mobile Number" value="1234567890" maxlength="10"
-                            pattern="[1-9]{1}\d{9}" title="Enter a valid mobile number" />
+                        <input type="text" name="emailId" placeholder="Email" value="saideep.kankarla@gmail.com" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" title="Enter a valid email" />
+                        <input type="password" name="password" placeholder="Password" value="12345678" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
+                        <input type="text" name="phone" placeholder="Mobile Number" value="1234567890" maxlength="10" pattern="[1-9]{1}\d{9}" title="Enter a valid mobile number" />
                         <input type="submit" value="Sign Up" />
                     </form>
                 </div>
@@ -37,46 +34,44 @@
 
 
         <% if(data.isloggedin) { %>
-        <div class="btn-group navbar-right">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Welcome
+            <div class="btn-group navbar-right">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Welcome
                     <%= data.name %>
                     <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/upload">Upload a video</a></li>
-                    <li><a href="/manage">Manage videos</a></li>
-                    <!-- <li><a href="/settings">Settings</a></li> -->
-                    <li><a href="/logout">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-        <% } else { %>
-        <div class="login"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></div>
-        <% } %>
-
-
-
-        <div class="login">
-            <div id="small-dialog" class="mfp-hide">
-                <h3>Login</h3>
-
-                <div class="signup">
-                    <form action="/loginProcess" method="POST">
-                        <input type="text" value="skankarla@gmail.com" name="login_emailId" placeholder="Enter email id"
-                            required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
-                        <input type="password" value="123456" name="login_password" placeholder="Password" required="required"
-                            pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
-                        <input type="submit" name="login" value="Login " />
-                    </form>
-                    <div class="forgot">
-                        <!-- <a href="#">Forgot password ?</a> --> <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">
-                          New User, Create Account</a>
-                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="/upload">Upload a video</a></li>
+                        <li><a href="/manage">Manage videos</a></li>
+                        <li><a href="/settings">Settings</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
                 </div>
-                <div class="clearfix"> </div>
             </div>
-        </div>
-        <div class="clearfix"> </div>
+            <% } else { %>
+                <div class="login"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></div>
+                <% } %>
+
+
+
+                    <div class="login">
+                        <div id="small-dialog" class="mfp-hide">
+                            <h3>Login</h3>
+
+                            <div class="signup">
+                                <form action="/loginProcess" method="POST">
+                                    <input type="text" value="skankarla@gmail.com" name="login_emailId" placeholder="Enter email id" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
+                                    <input type="password" value="12345678" name="login_password" placeholder="Password" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
+                                    <input type="submit" name="login" value="Login " />
+                                </form>
+                                <div class="forgot">
+                                    <!-- <a href="#">Forgot password ?</a> --><a href="#small-dialog2" class="play-icon popup-with-zoom-anim">
+                          New User, Create Account</a>
+                                </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
     </div>
 </div>
 <div class="clearfix"> </div>
