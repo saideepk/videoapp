@@ -1,12 +1,12 @@
 {
-    "name": "expressapp",
+    "name": "videoApp",
     "version": "1.0.0",
-    "description": "building routes",
+    "description": "Online Video Streaming and Sharing Management",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "me",
+    "author": "Saideep Kankarla",
     "license": "MIT",
     "dependencies": {
         "body-parser": "^1.18.3",

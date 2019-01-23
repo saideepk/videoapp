@@ -8,10 +8,10 @@
             <li><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Categories<span
                         class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
 
-            <ul class="cl-effect-2">
+            <ul class="cl-effect-2" style="display: block;">
                 <% if(sideBar && sideBar.length > 0){ %>
                 <% sideBar.forEach(function(item){ %>
-                <li><a href="/category/<%= item.category_id %>">
+                <li><a href="/category/<%= item.name %>/<%= item.category_id %>">
                         <%= item.name %></a></li>
                 <% }) %>
                 <% } else { %>

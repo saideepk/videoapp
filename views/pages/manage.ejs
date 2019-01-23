@@ -45,12 +45,17 @@
                                 <td><%= item.video_views %></td>
                                 <td><%= item.isPublic %></td>
                                 <td>
+                                        <a href="/edit/<%= item.video_id %>">
                                         <button type="button" class="btn btn-default btn-sm">
-                                                <span class="glyphicon glyphicon-pencil"></span> Update 
+                                                <span class="glyphicon glyphicon-pencil"></span> Update Video Details
                                               </button>
-                                              <button type="button" class="btn btn-danger btn-sm">
-                                                    <span class="glyphicon glyphicon-remove"></span> Delete 
-                                                  </button>
+                                            </a>
+                                              <a href="/delete/<%= item.video_id %>">
+                                                <button type="button" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-remove"></span> Delete this video
+                                                </button>
+                                            </a>
+                                              
                                 </td>
                             </tr>
                             <% }) %>
